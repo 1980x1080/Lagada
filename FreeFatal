@@ -1,0 +1,319 @@
+local FatalLibV2 = loadstring(game:HttpGet("https://raw.githubusercontent.com/9Strew/roblox/main/proc/jans"))()
+local WindowFatal = FatalLibV2:CreateWindow("Гей порно.exe", Vector2.new(600, 500), Enum.KeyCode.Insert)
+------------------------------------------------------------------------------------------
+--Options
+local WallHackOn = false
+local EspOn = true
+local TreeRemOn = false
+local WallClips = false
+local WindowNoClipOn = false
+local UpClip = false
+local LeavesRemover = false
+local AimbotTrue = false
+local HeadExtends = false
+
+local gmt = getrawmetatable(game)
+setreadonly(gmt, false)
+local oldindex = gmt.__index
+
+--locales
+local Players = game:GetService("Players");
+local LocalPlayer = Players.LocalPlayer;
+local Mouse = LocalPlayer:GetMouse();
+
+local Cameras = game:GetService("Workspace").Camera;
+local CurrentCamera = game:GetService("Workspace").CurrentCamera
+local worldToViewportPoint = CurrentCamera.worldToViewportPoint
+
+local HeadOff = Vector3.new(0, 0.5, 0)
+local LegOff = Vector3.new(0,3,0)
+
+--Globals
+local _Character = getrenv()._G.Character;
+
+--ESP Settings
+getgenv().Esp = {
+    EspColors = Color3.new(255,255,255),
+    NitrateColor = Color3.new(255,255,255),
+    NameColor = Color3.new(255,255,255),
+    TeamColor = Color3.new(255,255,255),
+    TeamNameColor = Color3.new(255,255,255),
+    EspDistance = 300,
+}
+local EspList = {
+    
+}
+------------------------------------------------------------------------------------------
+local VisualsTab = WindowFatal:CreateTab("🧿Visuals")
+local CrossHairSector = VisualsTab:CreateSector("Cross Hair", "left")
+-----------------------
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Camera = workspace.CurrentCamera
+
+local Typing = false
+
+local ViewportSize_ = Camera.ViewportSize / 2
+local Axis_X, Axis_Y = ViewportSize_.X, ViewportSize_.Y
+
+local HorizontalLine = Drawing.new("Line")
+local VerticalLine = Drawing.new("Line")
+
+_G.SendNotifications = true   -- If set to true then the script would notify you frequently on any changes applied and when loaded / errored. (If a game can detect this, it is recommended to set it to false)
+_G.DefaultSettings = false   -- If set to true then the script would create a crosshair with the default settings regardless of any changes.
+_G.ToMouse = false   -- If set to true then the crosshair will be positioned to your mouse cursor's position. If set to false it will be positioned to the center of your screen.
+
+_G.CrosshairVisible = false   -- If set to true then the crosshair would be visible and vice versa.
+_G.CrosshairSize = 10   -- The size of the crosshair.
+_G.CrosshairThickness = 1   -- The thickness of the crosshair.
+_G.CrosshairColor = Color3.fromRGB(0, 255, 0)   -- The color of the crosshair
+_G.CrosshairTransparency = 1   -- The transparency of the crosshair.
+
+_G.DisableKey = Enum.KeyCode.Q   -- The key that enables / disables the crosshair.
+
+RunService.RenderStepped:Connect(function()
+    local Real_Size = _G.CrosshairSize / 2
+
+    HorizontalLine.Color = _G.CrosshairColor
+    HorizontalLine.Thickness = _G.CrosshairThickness
+    HorizontalLine.Visible = _G.CrosshairVisible
+    HorizontalLine.Transparency = _G.CrosshairTransparency
+    
+    VerticalLine.Color = _G.CrosshairColor
+    VerticalLine.Thickness = _G.CrosshairThickness
+    VerticalLine.Visible = _G.CrosshairVisible
+    VerticalLine.Transparency = _G.CrosshairTransparency
+    
+    if _G.ToMouse == true then
+        HorizontalLine.From = Vector2.new(UserInputService:GetMouseLocation().X - Real_Size, UserInputService:GetMouseLocation().Y)
+        HorizontalLine.To = Vector2.new(UserInputService:GetMouseLocation().X + Real_Size, UserInputService:GetMouseLocation().Y)
+        
+        VerticalLine.From = Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y - Real_Size)
+        VerticalLine.To = Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y + Real_Size)
+    elseif _G.ToMouse == false then
+        HorizontalLine.From = Vector2.new(Axis_X - Real_Size, Axis_Y)
+        HorizontalLine.To = Vector2.new(Axis_X + Real_Size, Axis_Y)
+    
+        VerticalLine.From = Vector2.new(Axis_X, Axis_Y - Real_Size)
+        VerticalLine.To = Vector2.new(Axis_X, Axis_Y + Real_Size)
+    end
+end)
+
+if _G.DefaultSettings == true then
+    _G.CrosshairVisible = true
+    _G.CrosshairSize = 10
+    _G.CrosshairThickness = 1
+    _G.CrosshairColor = Color3.fromRGB(40, 90, 255)
+    _G.CrosshairTransparency = 0.15
+    _G.DisableKey = Enum.KeyCode.Q
+end
+
+UserInputService.TextBoxFocused:Connect(function()
+    Typing = true
+end)
+
+UserInputService.TextBoxFocusReleased:Connect(function()
+    Typing = false
+end)
+---------------------
+CrossHairSector:AddToggle('Visible ', false, function(CrosshairVisibl33e )
+    _G.CrosshairVisible = CrosshairVisibl33e
+end)
+
+CrossHairSector:AddColorpicker("Cross Hair Color", Color3.fromRGB(0, 255, 0), function(CrossHairColo3r)
+   _G.CrosshairColor = CrossHairColo3r
+end)
+
+local CrosshairSizfe = CrossHairSector:AddSlider("Crosshair Size", 1, 1, 200, 1, function(Cro4sshairSize)
+    _G.CrosshairSize = Cro4sshairSize
+end)
+local WoroldSector = VisualsTab:CreateSector("Worold", "left")
+WoroldSector:AddButton('Leavs Remover',function()
+    if LeavesRemover == false then
+        LeavesRemover = true
+        while LeavesRemover == true do
+            for v, i in pairs(game:GetService("Workspace"):GetChildren()) do
+                if i:FindFirstChild("Part") then
+                    if i:FindFirstChild("top") then
+                        i.top:Remove()
+                    else
+                        for x,b in pairs(i:GetChildren()) do
+                            if b.ClassName == "MeshPart" and b.MeshId == "rbxassetid://743205322" then
+                                print("Remove")
+                                b:Remove()
+                            end
+                        end
+                    end
+                end
+            end
+        wait(5)
+        end
+    else
+        LeavesRemover = false
+    end
+end)
+local ESPSector = VisualsTab:CreateSector("ESP", "left")
+
+ESPSector:AddButton('Off/On',function()
+    while wait(1) do
+    for i, a in ipairs(workspace:GetChildren()) do
+        if a:FindFirstChild("Humanoid") then
+            if not a:FindFirstChild("Esp") then
+                if a ~= game:GetService("Workspace").Ignore.FPSArms then
+                    local b = Instance.new("Highlight",a)
+                    b.Adornee = a
+                    b.Name = "Esp"
+                end
+            end
+        end
+    end
+end
+
+
+function espteam(espname,espcolor,namecolor,i,types)
+    print(espname)
+	local Box = Drawing.new("Square")
+	Box.Visible = false
+	Box.Thickness = 1
+	Box.Transparency = 1
+	Box.Filled = false
+
+	local Name = Drawing.new("Text")
+	Name.Center = true
+	Name.Transparency = 1
+	Name.Visible = false
+	
+	local RootPart = i.HumanoidRootPart
+	local Head = i.Head
+	
+	espset(espname,espcolor,namecolor,i,Box,Name,RootPart,Head,types)
+	
+	
+end
+function espset(espname,espcolor,namecolor,i,Box,Name,RootPart,Head,types)
+	
+	
+    game:GetService("RunService").RenderStepped:Connect(function()
+        
+        local RootParts = RootPart
+        local corotune = false
+        local removeds = false
+        
+        if RootPart ~= nil then
+            local Vector, onScreen = CurrentCamera:worldToViewportPoint(RootParts.Position)
+    		local RootPosition, RootVis = worldToViewportPoint(CurrentCamera, RootParts.Position)
+    		local HeadPosition = worldToViewportPoint(CurrentCamera, Head.Position + HeadOff)
+    		local LegPosition = worldToViewportPoint(CurrentCamera, RootParts.Position - LegOff)
+    			
+    		local magnitude = (_Character.character.Middle.Position - RootParts.Position).magnitude
+    		    if onScreen then
+        		    if magnitude < Esp["EspDistance"] and EspOn == true then
+        				if i:FindFirstChild("Humanoid") then
+        				    Box.Size = Vector2.new(2000 / RootPosition.Z, HeadPosition.Y - LegPosition.Y)
+                			Box.Position = Vector2.new(RootPosition.X - Box.Size.X / 2, RootPosition.Y - Box.Size.Y / 2)
+                			Box.Visible = true
+                			if types == "Team" then
+                			    Box.Color = Esp["TeamColor"]
+                			else
+                			    Box.Color = Esp["EspColors"]
+                			end
+        				end
+            			if i:FindFirstChild("Head") then
+            				Name.Size = 25
+            				Name.Position = Vector2.new(RootPosition.X - Box.Size.X / 2, RootPosition.Y)
+            				Name.Text = espname
+            				Name.Visible = true
+            				if types == "Team" then
+                			    Name.Color = Esp["TeamNameColor"]
+                			else
+                			    Name.Color = Esp["NameColor"]
+                			end
+            			else
+            			    if Box ~= nil then
+            			        EspList[espname] = nil
+                			    Box:Remove()
+                			    Name:Remove()
+                			    Box = nil
+            			    end
+            			end
+            		else
+            		    if Box ~= nil then
+                        	Box.Visible = false
+                    	    Name.Visible = false
+            		   end
+            		end
+            	else
+            	    if Box ~= nil then
+                	    Box.Visible = false
+                	    Name.Visible = false
+            	    end
+        		end
+    		end
+	    end)
+    end
+end)
+
+game:GetService("Players").PlayerAdded:Connect(function(player)
+	if EspList[player.Name] then
+	    EspList[player.Name] = nil
+    end
+end)
+
+local ESPDistanser = ESPSector:AddSlider("Crosshair Size", 1, 300, 1200, 1, function(t)
+    Esp["EspDistance"] = t
+end)
+
+--
+ESPSector:AddLabel("Players:")
+ESPSector:AddColorpicker("ESP Color", Color3.fromRGB(255,1,1), function(t)
+    Esp["EspColors"] = t
+end)
+ESPSector:AddColorpicker("Name ESP Color", Color3.fromRGB(255,1,1), function(t)
+    Esp["NameColor"] = t
+end)
+ESPSector:AddLabel("Teams:")
+ESPSector:AddColorpicker("Team ESP Color", Color3.fromRGB(255,1,1), function(t)
+    Esp["TeamColor"] = t
+end)
+ESPSector:AddColorpicker("Team Name ESP Color", Color3.fromRGB(255,1,1), function(t)
+    Esp["TeamNameColor"] = t
+end)
+
+local PlayerSector = VisualsTab:CreateSector("Player", "right")
+local PlayerFover = PlayerSector:AddSlider("Player Fov", 1, 80, 120, 1, function(t)
+    gmt.__index = newcclosure(function(self,b)
+		if b == "FieldOfView" then
+			return t
+		end
+		return oldindex(self,b)
+	end)
+end)
+PlayerSector:AddButton('Fov set',function()
+    gmt.__index = newcclosure(function(self,b)
+		if b == "FieldOfView" then
+			return 80
+		end
+		return oldindex(self,b)
+	end)
+end)
+-----------------------------------------------------------------------------------------------------
+local KeyBindsTab = WindowFatal:CreateTab("🎹Key binds")
+local CSector = KeyBindsTab:CreateSector("", "left")
+CSector:AddKeybind("Wall X-Ray", T, T, function()
+    if WallHackOn == false then
+	    WallHackOn = true
+		for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+			if v:FindFirstChild("Hitbox") then
+				v.Hitbox.Transparency = 0.7
+			end
+		end
+	else
+		WallHackOn = false
+		for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+			if v:FindFirstChild("Hitbox") then
+				v.Hitbox.Transparency = 0
+			end
+		end
+	end
+end)
